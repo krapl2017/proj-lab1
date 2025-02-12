@@ -1,4 +1,8 @@
 import re
+
+def badInput():
+    print("Некорректный ввод")
+
 correctInput = False
 while (not correctInput):
     print("Введите приближённое число (оно не может равняться нулю): ")
@@ -6,9 +10,9 @@ while (not correctInput):
     strN = input()
     if re.match(pattern, strN):
         numWithNoComma = strN.replace(",", ".")
-        n = float(numWithNoComma)
+        n = abs(float(numWithNoComma))
         if n == 0:
-            print("Некорректный ввод")
+            badInput()
         else:
             correctInput = True
 
@@ -22,21 +26,39 @@ while (not correctInput):
 
                 if choice == 1:
                     correctChoice = True
-                    print("Введите абсолютную предельную погрешность:")
-                    e = float(input())
-                    print("Исходное приближённое число:", n)
-                    print("Абсолютная погрешность:", e)
-                    print("Относительная погрешность:", e / n)
+                    correctEImput = False
+                    while(not correctEImput):
+                        print("Введите абсолютную предельную погрешность:")
+                        strE = input()
+                        if re.match(pattern, strE):
+                            eWithNoComma = strE.replace(",", ".")
+                            e = abs(float(eWithNoComma))
+                            print("Исходное приближённое число:", n)
+                            print("Абсолютная погрешность:", e)
+                            print("Относительная погрешность в процентах:", e / n * 100)
+                            correctEImput = True
+                        else:
+                            badInput
                     
                 elif choice == 2:
                     correctChoice = True
-                    print("Введите относительную предельную погрешность:")
-                    e = float(input())
-                    print("Исходное приближённое число:", n)
-                    print("Относительная погрешность:", e)
-                    print("Абсолютная погрешность:", e * n)
-                    
+                    correctEImput = False
+                    while(not correctEImput):
+                        print("Введите относительную предельную погрешность (в процентах от 0 до 100):")
+                        strE = input()
+                        if re.match(pattern, strE):
+                            eWithNoComma = strE.replace(",", ".")
+                            e = abs(float(eWithNoComma))
+                            if ( e < 100.0):
+                                print("Исходное приближённое число:", n)
+                                print("Относительная погрешность:", e)
+                                print("Абсолютная погрешность:", e * n / 100)
+                                correctEImput = True
+                            else:
+                                print("Некорректный ввод. Относительная погрешность должна быть меньше 100%")
+                        else:
+                            badInput
                 else:
-                    print("Некорректный ввод")
+                    badInput
     else:
-        print("Некорректный ввод")
+        badInput
